@@ -9,7 +9,13 @@ input_image = Image.open("assets/alex-ege-pics/SS853344.JPG")
 
 def get_pixel_matrix(image):
     """
-    
+    Returns a 2-D pixel matrix of the input image
+
+    Args:
+    image - PIL image object
+
+    Returns:
+    pixel_matrix - A 2-D pixel matrix 
 
     """
 
@@ -46,16 +52,16 @@ def get_pixel_matrix(image):
     
 def get_square_from_image(pixels, corner, size):
     """
-    Returns a square of the 2d pixel matrix of the input image
+    Returns a square of the 2-D pixel matrix of the input image
 
     Args:
-    pixels - 2d pixel matrix of the input image
+    pixels - 2-D pixel matrix of the input image
     corner - top left corner of the sub-section/square, tuple containing coordinates(row, column)
     size - size of each square
 
     Returns:
-    square - A 2d pixel matrix of the sub-section/square of original matrix
-    
+    square - A 2-D pixel matrix of the sub-section/square of original matrix
+
     """
     
     # calculate where the square ends vertically and horizontally
@@ -66,7 +72,7 @@ def get_square_from_image(pixels, corner, size):
     # take a slice of all the rows needed
     square_rows = pixels[row_start:row_end]
 
-    # 2d pixel matrix of the square
+    # 2-D pixel matrix of the square
     square = []
 
     # the (i[x:y]) format takes a slice from x to y 
