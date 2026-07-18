@@ -8,6 +8,10 @@ input_image = Image.open("assets/alex-ege-pics/SS853344.JPG")
 # im = Image.merge("RGB", (b, g, r))
 
 def get_pixel_matrix(image):
+    """
+    
+
+    """
 
     width = image.width
 
@@ -40,7 +44,36 @@ def get_pixel_matrix(image):
     
     return pixel_matrix
     
+def get_square_from_image(pixels, corner, size):
+    """
+    Returns a square of the 2d pixel matrix of the input image
 
+    Args:
+    pixels - 2d pixel matrix of the input image
+    corner - top left corner of the sub-section/square, tuple containing coordinates(row, column)
+    size - size of each square
+
+    Returns:
+    square - A 2d pixel matrix of the sub-section/square of original matrix
+    
+    """
+    
+    # calculate where the square ends vertically and horizontally
+    # corner is a tuple (row,column)
+    row_start, col_start = corner
+    row_end, col_end = row_start + size, col_start + size
+
+    # take a slice of all the rows needed
+    square_rows = pixels[row_start:row_end]
+
+    # 2d pixel matrix of the square
+    square = []
+
+    # the (i[x:y]) format takes a slice from x to y 
+    for row in square_rows:
+        square.append(row[col_start:col_end])
+    
+    return square
 
 
 def get_average_colour_value(self, image):
@@ -49,8 +82,6 @@ def get_average_colour_value(self, image):
 def pixelate_image(self, iamge):
     pass
 
-def crop_images_into_squares(self, images):
-    pass
 
 def build_mosaic_image(self, images):
     pass
