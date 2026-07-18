@@ -1,7 +1,4 @@
 from PIL import Image
-input_image = Image.open("assets/alex-ege-pics/SS853344.JPG")
-
-#print(input_image.format, input_image.size, input_image.mode)
 
 # to turn blue
 # r, g, b = im.split()
@@ -82,7 +79,7 @@ def get_square_from_image(pixels, corner, size):
     return square
 
 
-def avg_rgb(pixels):
+def get_avg_rgb(pixels):
     """
     Returns the average rgb value of a pixel matrix
     
@@ -111,27 +108,67 @@ def avg_rgb(pixels):
             g_total += i[1]
             b_total += i[2]
     
-    avg_rgb = (r_total / total_pixels, g_total / total_pixels, b_total / total_pixels)
+    avg_rgb = (int(r_total / total_pixels), int(g_total / total_pixels), int(b_total / total_pixels))
     
     return avg_rgb
 
 
+def pixelate_image(pixels, size=50):
+    """
+    Returns a 2-D matrix of a pixelated image with mean RGB values for the squares
     
+    Args:
+    pixels - 2-D pixel matrix of the input images
+    size - size of the squares
 
-def pixelate_image(self, iamge):
-    pass
+    Returns:
+    output_pixels = A 2-D matrix of average RGB values
+
+    """
+
+    height = len(pixels)
+    width = len(pixels[0])
+
+    # create a new blank image matrix
+    output_pixels = [[(0, 0, 0) for _ in range(width)] for _ in range(height)]
+
+    for row in range(0, height, size):
+        for column in range(0, width, size):
+            
+            # extract the current square block and get its average colour
+            current_square = get_square_from_image(pixels, (row,column), size)
+            square_avg_rgb = get_avg_rgb(current_square)
+
+            # put the average colour into the new output matrix
+            for square_row in range(row, min(row + size, height)):
+                for square_column in range(column, min(column + size, width)):
+                    output_pixels[square_row][square_column] = square_avg_rgb
+    
+    return output_pixels    
+
 
 
 def build_mosaic_image(self, images):
     pass
 
 
-
+input_image = Image.open("assets/alex-ege-pics/SS853344.JPG")
+input_image_width = input_image.width
+input_image_height = input_image.height
 
 pixel_matrix = get_pixel_matrix(input_image)
 
+# 2-D matrix for the pixelated image with average RGB values      
+pixelated_input_image_matrix = pixelate_image(pixel_matrix)
 
-#input_image.show()
+# output image
+output_image = Image.new("RGB", (input_image_width, input_image_height))
+
+# convert 2-D matrix into 1-D in order to put that pixel value data into the image
+flat_pixels = [pixel for row in pixelated_input_image_matrix for pixel in row]
+output_image.putdata(flat_pixels)
+
+output_image.show()
 
 
 
