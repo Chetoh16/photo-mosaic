@@ -82,8 +82,30 @@ def get_square_from_image(pixels, corner, size):
     return square
 
 
-def get_average_colour_value(self, image):
-    pass
+def avg_rgb(pixels):
+    r_total = 0
+    g_total = 0
+    b_total = 0
+    
+    # total would be amount of rows * the width of a row
+    # len(pixels) is the height (number of rows)
+    # len(pixels[0]) is the width (number of pixels in the first row)
+    total_pixels = len(pixels) * len(pixels[0])
+
+    #    pixel_matrix = [pixels[i:i+width] for i in range(0, len(pixels), width)]
+
+    for row in pixels:
+        for i in row:
+            r_total += i[0] # first index which red
+            g_total += i[1]
+            b_total += i[2]
+    
+    avg_rgb = (r_total / total_pixels, g_total / total_pixels, b_total / total_pixels)
+    
+    return avg_rgb
+
+
+    
 
 def pixelate_image(self, iamge):
     pass
