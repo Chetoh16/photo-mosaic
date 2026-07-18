@@ -83,6 +83,17 @@ def get_square_from_image(pixels, corner, size):
 
 
 def avg_rgb(pixels):
+    """
+    Returns the average rgb value of a pixel matrix
+    
+    Args:
+    pixels - 2-D pixel matrix of the input image
+
+    Returns:
+    avg_rgb = A 3-tuple of avg rgb value of the matrix
+
+    """
+
     r_total = 0
     g_total = 0
     b_total = 0
