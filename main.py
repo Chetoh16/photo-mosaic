@@ -9,7 +9,7 @@ if __name__ == "__main__":
     source_images_dir_path = "assets/square-source-pics"
 
     # size of each square tile block in pixels
-    tile_size = 30
+    tile_size = 20
     
     # load and scale input images
     source_images = load_and_scale_source_images(source_images_dir_path, tile_size)
