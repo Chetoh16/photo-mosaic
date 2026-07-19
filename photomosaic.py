@@ -196,6 +196,7 @@ def load_and_scale_source_images(path, size):
 
     """
     images = {}
+    
 
     for file_name in os.listdir(path):
         if file_name.lower().endswith('.jpg', '.jpeg', '.png'):
@@ -377,32 +378,6 @@ def build_photomosaic_image(input_image_path, source_images_path, tile_size = 50
     
     return output_image
 
-
-
-
-
-
-input_image = Image.open("assets/alex-ege-pics/SS853344.JPG")
-
-source_imgages_path = "assets/alex-ege-pics"
-
-
-input_image_width = input_image.width
-input_image_height = input_image.height
-
-pixel_matrix = get_pixel_matrix(input_image)
-
-# 2-D matrix for the pixelated image with average RGB values      
-pixelated_input_image_matrix = pixelate_image(pixel_matrix)
-
-# output image
-output_image = Image.new("RGB", (input_image_width, input_image_height))
-
-# convert 2-D matrix into 1-D in order to put that pixel value data into the image
-flat_pixels = [pixel for row in pixelated_input_image_matrix for pixel in row]
-output_image.putdata(flat_pixels)
-
-output_image.show()
 
 
 
