@@ -210,7 +210,7 @@ def load_and_scale_source_images(path, size):
             img = crop_image_into_squares(img)
 
             # rescale/shrink it
-            img.thumbnail(size, size)
+            img.thumbnail((size, size))
 
             # save to the directory
             images[file_name] = img
