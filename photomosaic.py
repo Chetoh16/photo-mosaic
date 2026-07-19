@@ -198,7 +198,7 @@ def load_and_scale_source_images(path, size):
     images = {}
 
     for file_name in os.listdir(path):
-        if file_name.lower().endswiths('.jpg', '.jpeg', '.png'):
+        if file_name.lower().endswith('.jpg', '.jpeg', '.png'):
 
             # load original source image
             full_path = os.path.join(path, file_name)
@@ -332,10 +332,7 @@ def pythagoras_colour_difference(p1, p2):
     return math.sqrt((p2[0] - p1[0])**2 + (p2[1] - p1[1])**2 + (p2[2] - p1[2])**2)
 
 
-    
-
-
-def build_mosaic_image(self, images):
+def build_photomosaic_image():
     pass
 
 
