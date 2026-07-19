@@ -115,7 +115,7 @@ def get_avg_rgb(pixels):
 
 def pixelate_image(pixels, size=50):
     """
-    Returns a 2-D matrix of a pixelated image with mean RGB values for the squares
+    Pixelates an image with mean RGB values for the squares
     
     Args:
     pixels - 2-D pixel matrix of the input images
@@ -146,6 +146,39 @@ def pixelate_image(pixels, size=50):
     
     return output_pixels    
 
+
+def crop_image_into_squares(image):
+    """
+    Crops an image to turn it into a square by cropping it from the centre
+    
+    Args:
+    image - Image object
+    
+    Returns:
+    new_image = Square Image object
+
+    """
+
+    #crop from the exact centre
+
+    height = image.height
+    width = image.width
+
+    # take the smallest side to turn into a square
+    # i.e. from (1280, 800) to (800,800)
+    new_size = min(width,height)
+
+    # calculate how much extra space needs to be split evenly on both sides
+    left = (width - new_size) // 2
+    top = (height - new_size) // 2
+    
+    # calculate the ending bounds based on the centre starting points
+    right = left + new_size
+    bottom = top + new_size
+
+    new_image = image.crop(left,top,right,bottom)
+
+    return new_image
 
 
 def build_mosaic_image(self, images):
