@@ -196,10 +196,11 @@ def load_and_scale_source_images(path, size):
 
     """
     images = {}
-    
+
+    valid_extensions = ('.jpg', '.jpeg', '.png', '.webp')
 
     for file_name in os.listdir(path):
-        if file_name.lower().endswith('.jpg', '.jpeg', '.png'):
+        if file_name.lower().endswith(valid_extensions):
 
             # load original source image
             full_path = os.path.join(path, file_name)
@@ -267,10 +268,10 @@ def prepare_source_images(source_path, output_path):
     processed_count = 0
     
     # loop through the files one by one
-    for filename in os.listdir(source_path):
-        if filename.lower().endswith(valid_extensions):
-            src_path = os.path.join(source_path, filename)
-            out_path = os.path.join(output_path, filename)
+    for file_name in os.listdir(source_path):
+        if file_name.lower().endswith(valid_extensions):
+            src_path = os.path.join(source_path, file_name)
+            out_path = os.path.join(output_path, file_name)
             
             try:
                 with Image.open(src_path) as img:
@@ -284,7 +285,7 @@ def prepare_source_images(source_path, output_path):
                     processed_count += 1
                     
             except Exception as e:
-                print(f"skip  {filename}: {e}")
+                print(f"skip  {file_name}: {e}")
                 
 def pythagoras_nearest_rgb(target_rgb, source_images_mean_rgbs):
     """
