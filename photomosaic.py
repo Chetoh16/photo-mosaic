@@ -1,4 +1,5 @@
 from PIL import Image
+import os
 
 # to turn blue
 # r, g, b = im.split()
@@ -181,11 +182,49 @@ def crop_image_into_squares(image):
     return new_image
 
 
+def load_and_scale_source_images(path, size):
+    """
+    Loads images from the folder and rescaled them
+    
+    Args:
+    path - path string for source images folder
+    size - size/dimension to shrink the images
+    
+    Returns:
+    images = directory of loaded and rescaled images
+
+    """
+    images = {}
+
+    for file_name in os.listdir(path):
+        if file_name.lower().endswiths('.jpg', '.jpeg', '.png'):
+
+            # load original source image
+            full_path = os.path.join(path, file_name)
+            img = Image.open(full_path)
+
+            # crop it to make it a square
+            img = crop_image_into_squares(img)
+
+            # rescale/shrink it
+            img.thumbnail(size, size)
+
+            # save to the directory
+            images[file_name] = img
+
+    return images
+
+
+
 def build_mosaic_image(self, images):
     pass
 
 
 input_image = Image.open("assets/alex-ege-pics/SS853344.JPG")
+
+source_imgages_path = "assets/alex-ege-pics"
+
+
 input_image_width = input_image.width
 input_image_height = input_image.height
 
