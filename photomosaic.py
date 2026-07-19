@@ -1,5 +1,6 @@
 from PIL import Image
 import os
+import math
 
 # to turn blue
 # r, g, b = im.split()
@@ -284,6 +285,21 @@ def prepare_source_images(source_path, output_path):
             except Exception as e:
                 print(f"skip  {filename}: {e}")
                 
+def pythagoras_nearest_rgb(target_rgb, dic_of_rgbs):
+    pass
+
+def pythagoras_colour_difference(p1, p2):
+    """
+    Calculates 3D distance between two RGB tuples / points.
+
+    Formula -> Distance = sqrt{(R_2 - R_1)^2 + (G_2 - G_1)^2 + (B_2 - B_1)^2}
+    
+    """
+    return math.sqrt((p2[0] - p1[0])**2 + (p2[1] - p1[1])**2 + (p2[2] - p1[2])**2)
+
+
+    
+
 
 def build_mosaic_image(self, images):
     pass
