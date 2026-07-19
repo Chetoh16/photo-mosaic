@@ -295,6 +295,7 @@ def pythagoras_nearest_rgb(target_rgb, source_images_mean_rgbs):
 
     Returns:
     best_match - the filename of the closest matching source image
+
     """
 
 
@@ -327,12 +328,26 @@ def pythagoras_colour_difference(p1, p2):
     Calculates 3D distance between two RGB tuples / points.
 
     Formula -> Distance = sqrt{(R_2 - R_1)^2 + (G_2 - G_1)^2 + (B_2 - B_1)^2}
+
+    Return:
+    A  distance value
     
     """
     return math.sqrt((p2[0] - p1[0])**2 + (p2[1] - p1[1])**2 + (p2[2] - p1[2])**2)
 
 
-def build_photomosaic_image(input_image_path, source_img_dir, tile_size = 50):
+def build_photomosaic_image(input_image_path, source_images_path, tile_size = 50):
+    """
+    Builds a photomosaic image.
+
+    Args:
+    input_image_path - the path of the input image
+    source_images_path - the directory path of source images
+    tile_size - size of the tiles for the output picture
+
+    Returns:
+    output_image - photomosaic Image
+    """
 
     # load input image to be mosaic-ed
     target_img = Image.open(input_image_path)
@@ -344,7 +359,7 @@ def build_photomosaic_image(input_image_path, source_img_dir, tile_size = 50):
     width = len(target_matrix[0])
 
     # load and scale source images to build the mosaic with
-    source_images = load_and_scale_source_images(source_img_dir, tile_size)
+    source_images = load_and_scale_source_images(source_images_path, tile_size)
     source_rgbs = get_avg_rgb_for_images(source_images)
 
     output_image = Image.new("RGB", (width, height))
