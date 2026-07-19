@@ -216,7 +216,7 @@ def load_and_scale_source_images(path, size):
     return images
 
 
-def get_avg_rgb_for_img(images):
+def get_avg_rgb_for_images(images):
     """
     Calculates the average RGB value for every image in the source images directory
 
@@ -332,8 +332,39 @@ def pythagoras_colour_difference(p1, p2):
     return math.sqrt((p2[0] - p1[0])**2 + (p2[1] - p1[1])**2 + (p2[2] - p1[2])**2)
 
 
-def build_photomosaic_image():
-    pass
+def build_photomosaic_image(input_image_path, source_img_dir, tile_size = 50):
+
+    # load input image to be mosaic-ed
+    target_img = Image.open(input_image_path)
+
+    # turn it into a 2-D pixel matrix
+    target_matrix = get_pixel_matrix(target_img)
+
+    height = len(target_matrix)
+    width = len(target_matrix[0])
+
+    # load and scale source images to build the mosaic with
+    source_images = load_and_scale_source_images(source_img_dir, tile_size)
+    source_rgbs = get_avg_rgb_for_images(source_images)
+
+    output_image = Image.new("RGB", (width, height))
+
+    for row in range(0, height, tile_size):
+        for column in range(0, width, tile_size):
+
+            # get current square and its rgb value
+            current_square = get_square_from_image(target_matrix, (row,column), tile_size)
+            target_rgb = get_avg_rgb(current_square)
+
+            best_match_filename = pythagoras_nearest_rgb(target_rgb, source_rgbs)
+            
+            output_image.paste(source_images[best_match_filename], (column, row))
+    
+    return output_image
+
+
+
+
 
 
 input_image = Image.open("assets/alex-ege-pics/SS853344.JPG")
