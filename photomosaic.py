@@ -220,20 +220,26 @@ def get_avg_rgb_for_img(images):
     Calculates the average RGB value for every image in the source images directory
 
     Args:
-    imgs - a dict of filenames => PIL image objects
-        (NOT pixel matrices)
+    images - a dictionary of (file names, PIL image objects)
 
     Returns:
-    A dict of filenames => mean RGB values
+    rgbs - A dictionary of (file names, average RGB values)
 
     """
 
     rgbs = {}
 
-    # imgs is a dictionary: {"photo.jpg": <ImageObject>}
+    # images is a dictionary: {"photo.jpg": <ImageObject>}
+    # iterate through it
     for file_name, img in images.items():
+        
+        # convert an image into its 2-D pixel matrix
         matrix = get_pixel_matrix(img)
+
+        # get the average rgb values for that matrix
         avg_rgb = get_avg_rgb(matrix)
+
+        # add it to the dictionary
         rgbs[file_name] = avg_rgb
     
     return rgbs
