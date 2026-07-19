@@ -395,4 +395,3 @@ class JSONCache:
     def read_all(self):
         with open(self.cache_path) as f:
             return json.load(f)
-
