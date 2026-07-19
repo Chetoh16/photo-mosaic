@@ -177,7 +177,7 @@ def crop_image_into_squares(image):
     right = left + new_size
     bottom = top + new_size
 
-    new_image = image.crop(left,top,right,bottom)
+    new_image = image.crop((left,top,right,bottom))
 
     return new_image
 
@@ -215,6 +215,69 @@ def load_and_scale_source_images(path, size):
     return images
 
 
+def get_avg_rgb_for_img(images):
+    """
+    Calculates the average RGB value for every image in the source images directory
+
+    Args:
+    imgs - a dict of filenames => PIL image objects
+        (NOT pixel matrices)
+
+    Returns:
+    A dict of filenames => mean RGB values
+
+    """
+
+    rgbs = {}
+
+    # imgs is a dictionary: {"photo.jpg": <ImageObject>}
+    for file_name, img in images.items():
+        matrix = get_pixel_matrix(img)
+        avg_rgb = get_avg_rgb(matrix)
+        rgbs[file_name] = avg_rgb
+    
+    return rgbs
+
+
+def prepare_source_images(source_path, output_path):
+    """
+    Crops source images to turn them into a square and saves them in a directory.
+    This is useful as it would take too long to crop AND rescale 1000 images at each run.
+    Only need to run it once at the beginning (if the pictures are not already square).
+
+    Args:
+    source_path - directory path of the original not-square images
+    output_path - directory path of where the new square images will be saved
+
+    """
+
+    # create the new folder if it doesn't exist yet
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
+        
+    valid_extensions = ('.jpg', '.jpeg', '.png', '.webp')
+    processed_count = 0
+    
+    # loop through the files one by one
+    for filename in os.listdir(source_path):
+        if filename.lower().endswith(valid_extensions):
+            src_path = os.path.join(source_path, filename)
+            out_path = os.path.join(output_path, filename)
+            
+            try:
+                with Image.open(src_path) as img:
+                    
+                    # crop it to make it a square
+                    square_img = crop_image_into_squares(img)
+                    
+                    # save the new square image to the new directory
+                    square_img.save(out_path)
+
+                    processed_count += 1
+                    
+            except Exception as e:
+                print(f"skip  {filename}: {e}")
+                
 
 def build_mosaic_image(self, images):
     pass
