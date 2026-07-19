@@ -1,6 +1,7 @@
 from PIL import Image
 import os
 import math
+import json
 
 # to turn blue
 # r, g, b = im.split()
@@ -338,7 +339,7 @@ def pythagoras_colour_difference(p1, p2):
     return math.sqrt((p2[0] - p1[0])**2 + (p2[1] - p1[1])**2 + (p2[2] - p1[2])**2)
 
 
-def build_photomosaic_image(input_image_path, source_images_path, tile_size = 50):
+def build_photomosaic_image(input_image_path, source_images, source_rgbs, tile_size = 50):
     """
     Builds a photomosaic image.
 
@@ -360,10 +361,6 @@ def build_photomosaic_image(input_image_path, source_images_path, tile_size = 50
     height = len(target_matrix)
     width = len(target_matrix[0])
 
-    # load and scale source images to build the mosaic with
-    source_images = load_and_scale_source_images(source_images_path, tile_size)
-    source_rgbs = get_avg_rgb_for_images(source_images)
-
     output_image = Image.new("RGB", (width, height))
 
     for row in range(0, height, tile_size):
@@ -379,7 +376,23 @@ def build_photomosaic_image(input_image_path, source_images_path, tile_size = 50
     
     return output_image
 
+class JSONCache:
+    """
+    A small class that manages a cache backed
+    by a JSON file on disk.
+    """
 
+    def __init__(self, cache_path):
+        self.cache_path = cache_path
 
+    def has_data(self):
+        return os.path.isfile(self.cache_path)
 
+    def write_all(self, data):
+        with open(self.cache_path, 'w') as f:
+            json.dump(data, f)
+
+    def read_all(self):
+        with open(self.cache_path) as f:
+            return json.load(f)
 
