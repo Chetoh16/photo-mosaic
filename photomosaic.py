@@ -285,8 +285,42 @@ def prepare_source_images(source_path, output_path):
             except Exception as e:
                 print(f"skip  {filename}: {e}")
                 
-def pythagoras_nearest_rgb(target_rgb, dic_of_rgbs):
-    pass
+def pythagoras_nearest_rgb(target_rgb, source_images_mean_rgbs):
+    """
+    Finds the source image with the closest rgb value to the target section.
+
+    Args:
+    target_rgb - the average rgb value of the target section
+    source_images_mean_rgbs - a dictionary of source (filenames, the mean RGB value of that file)
+
+    Returns:
+    best_match - the filename of the closest matching source image
+    """
+
+
+    # loops through filenames to return the one with the lowest color distance score
+    # min() compares all distance numbers and returns the winning filename
+    best_match = min(
+
+        # list of filenames to choose from
+        source_images_mean_rgbs.keys(),  
+        
+        # lambda filename is a helper function
+        # takes a filename, looks up its RGB, and calculates distance to target
+        key=lambda filename: pythagoras_colour_difference(target_rgb, source_images_mean_rgbs[filename])
+    )
+
+    # this is equivalent to the code above
+    # best_match_name = None
+    # best_match_color_difference = None
+    # for path, source_rgb in source_images_mean_rgbs.iteritems():
+    #     color_difference = pythagoras_colour_difference(target_rgb, source_rgb)
+    #     if best_match_color_difference is None or color_difference < best_match_color_difference:
+    #         best_match_name = path
+    #         best_match_color_difference = color_difference
+
+    return best_match
+    
 
 def pythagoras_colour_difference(p1, p2):
     """
